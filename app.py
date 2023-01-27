@@ -7,23 +7,14 @@ import json
 np.random.seed(42)
 torch.manual_seed(42)
 torch.__version__
-
-# path = "sberbank-ai/rugpt3large_based_on_gpt2"
-path = "sberbank-ai/rugpt3small_based_on_gpt2"
-tok = GPT2Tokenizer.from_pretrained(path)
-model = GPT2LMHeadModel.from_pretrained(path).to('cpu')
-
-do_sample = True
-max_length = 30
-repetition_penalty = 5.0
-top_k = 5
-top_p = 0.95
-temperature = 1
-num_beams = 10
-no_repeat_ngram_size = 3
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 app = Flask(__name__)
 
+path = "sberbank-ai/rugpt3large_based_on_gpt2"
+tok = GPT2Tokenizer.from_pretrained(path)
+model = GPT2LMHeadModel.from_pretrained(path)
+model.to(device)
 
 @app.route('/')
 @app.route('/index')
@@ -33,16 +24,60 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    # Parse request
     json_str = request.get_data()
     data = json.loads(json_str)
-    prompt = data['prompt']
-    input_ids = tok.encode(prompt, return_tensors="pt")
+
+    # Sentence for work
+    question = data['question']
+
+    #
+    # Settings
+    #
+
+    do_sample = True
+
+    # Max length of output string
+    max_length = 100
+    if "max_length" in data:
+        max_length = data['max_length']
+
+    repetition_penalty = 5.0
+    if "repetition_penalty" in data:
+        repetition_penalty = data['repetition_penalty']
+
+    top_k = 5
+    if "top_k" in data:
+        top_k = data['top_k']
+
+    top_p = 0.95
+    if "top_p" in data:
+        top_p = data['top_p']
+
+    temperature = 1
+    if "temperature" in data:
+        temperature = data['temperature']
+
+    num_beams = 10
+    if "num_beams" in data:
+        num_beams = data['num_beams']
+
+    no_repeat_ngram_size = 3
+    if "no_repeat_ngram_size" in data:
+        no_repeat_ngram_size = data['no_repeat_ngram_size']
+
+    #
+    # Init model
+    #
+
+    input_ids = tok.encode(question, return_tensors="pt").to(device)
     out = model.generate(
         input_ids,
         max_length=max_length,
         repetition_penalty=repetition_penalty,
         do_sample=do_sample,
-        top_k=top_k, top_p=top_p,
+        top_k=top_k,
+        top_p=top_p,
         temperature=temperature,
         num_beams=num_beams,
         no_repeat_ngram_size=no_repeat_ngram_size

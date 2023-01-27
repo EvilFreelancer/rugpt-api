@@ -7,6 +7,15 @@
 <p><code>docker-compose up -d</code></p>
 <h2>How to use</h2>
 <p>Need to create POST request with JSON object.</p>
-<p><code>curl -X POST http://127.0.0.1:5000/predict \
-  --header "Content-Type: application/json" \
-  --data '{"prompt":"some text for network"}'</code></p>
+<p><code>curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -d '{"question":"some text for network"}'</code></p>
+<h2>Supported parameters</h2>
+<p>| Name                 | Type   | Default |
+|----------------------|--------|---------|
+| question             | string |         |
+| max_length           | int    | 100     |
+| repetition_penalty   | float  | 5.0     |
+| top_k                | int    | 5       |
+| top_p                | float  | 0.95    |
+| temperature          | int    | 1       |
+| num_beams            | int    | 10      |
+| no_repeat_ngram_size | int    | 3       |</p>
