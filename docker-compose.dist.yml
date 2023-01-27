@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+
+  api:
+    restart: "unless-stopped"
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
