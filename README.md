@@ -1,6 +1,6 @@
 # ruGPT-3 in Docker
 
-Small API project based on Flesk for making requests to RuGPT-3 neural network.
+Small API project based on Flask for making requests to RuGPT-3 neural network.
 
 ## How to install
 
