@@ -44,7 +44,7 @@ def predict():
     do_sample = True
 
     # Max length of output string
-    max_length = 1000
+    max_length = 100
     if "max_length" in data:
         max_length = data['max_length']
 
