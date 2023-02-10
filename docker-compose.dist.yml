@@ -6,7 +6,17 @@ services:
     restart: "unless-stopped"
     build:
       context: .
+    environment:
+      PORT: 5000
     ports:
       - "5000:5000"
     volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
       - ./:/app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]

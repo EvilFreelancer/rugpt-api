@@ -1,17 +1,27 @@
-FROM python:3.10-slim AS compile-image
+FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04 AS compile-image
 ENV PATH="/root/.cargo/bin:${PATH}"
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends curl build-essential
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 WORKDIR /app
+
+# Install required packages
+RUN set -xe \
+ && apt-get -y update \
+ && apt-get install -y software-properties-common curl build-essential \
+ && apt-get -y update \
+ && add-apt-repository universe \
+ && apt-get -y update \
+ && apt-get -y install python3 python3-pip \
+ && apt-get clean
+
+# Install Rust
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+
+# Install python packages
 COPY requirements.txt ./
 RUN set -xe \
  && pip install --upgrade pip \
  && pip install --no-cache-dir -r requirements.txt
 
-
-FROM python:3.10-slim
-EXPOSE 5000
-COPY --from=compile-image /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+# Copy project files
 COPY . .
-CMD ["python", "/app/app.py"]
+
+CMD ["python3.10", "/app/app.py"]
