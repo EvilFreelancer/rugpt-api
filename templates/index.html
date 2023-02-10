@@ -1,21 +1,29 @@
 <h1>ruGPT-3 in Docker</h1>
-<p>Small API project based on Flesk for making requests to RuGPT-3 neural network.</p>
+<p>Small API project based on Flask for making requests to RuGPT-3 neural network.</p>
 <h2>How to install</h2>
 <p>First need to build a composition:</p>
-<p><code>docker-compose build</code></p>
+<pre><code>docker-compose build
+</code></pre>
 <p>Run application:</p>
-<p><code>docker-compose up -d</code></p>
+<pre><code>docker-compose up -d
+</code></pre>
 <h2>How to use</h2>
 <p>Need to create POST request with JSON object.</p>
-<p><code>curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -d '{"question":"some text for network"}'</code></p>
+<pre><code>curl -X POST http://127.0.0.1:5000/predict -H &quot;Content-Type: application/json&quot; -d '{&quot;question&quot;:&quot;some text for network&quot;}'
+</code></pre>
 <h2>Supported parameters</h2>
-<p>| Name                 | Type   | Default |
-|----------------------|--------|---------|
-| question             | string |         |
-| max_length           | int    | 100     |
-| repetition_penalty   | float  | 5.0     |
-| top_k                | int    | 5       |
-| top_p                | float  | 0.95    |
-| temperature          | int    | 1       |
-| num_beams            | int    | 10      |
-| no_repeat_ngram_size | int    | 3       |</p>
+<p>| Name                 | Type   | Default                                                 |
+|----------------------|--------|---------------------------------------------------------|
+| question             | string |                                                         |
+| max_length           | int    | 100                                                     |
+| device               | string | <code>cuda</code> (if present) or <code>cpu</code> (if cuda is not available) |
+| repetition_penalty   | float  | 5.0                                                     |
+| top_k                | int    | 5                                                       |
+| top_p                | float  | 0.95                                                    |
+| temperature          | int    | 1                                                       |
+| num_beams            | int    | 10                                                      |
+| no_repeat_ngram_size | int    | 3                                                       |</p>
+<h2>Links</h2>
+<ul>
+<li>Project based on <a href="https://github.com/boangri/rugpt3-docker">boangri/rugpt3-docker</a></li>
+</ul>

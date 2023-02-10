@@ -26,13 +26,18 @@ curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -
 
 ## Supported parameters
 
-| Name                 | Type   | Default |
-|----------------------|--------|---------|
-| question             | string |         |
-| max_length           | int    | 100     |
-| repetition_penalty   | float  | 5.0     |
-| top_k                | int    | 5       |
-| top_p                | float  | 0.95    |
-| temperature          | int    | 1       |
-| num_beams            | int    | 10      |
-| no_repeat_ngram_size | int    | 3       |
+| Name                 | Type   | Default                                                 |
+|----------------------|--------|---------------------------------------------------------|
+| question             | string |                                                         |
+| max_length           | int    | 100                                                     |
+| device               | string | `cuda` (if present) or `cpu` (if cuda is not available) |
+| repetition_penalty   | float  | 5.0                                                     |
+| top_k                | int    | 5                                                       |
+| top_p                | float  | 0.95                                                    |
+| temperature          | int    | 1                                                       |
+| num_beams            | int    | 10                                                      |
+| no_repeat_ngram_size | int    | 3                                                       |
+
+## Links
+
+* Project based on [boangri/rugpt3-docker](https://github.com/boangri/rugpt3-docker)
